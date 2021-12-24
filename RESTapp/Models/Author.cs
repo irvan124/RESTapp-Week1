@@ -13,6 +13,7 @@ namespace RESTapp.Models
         [Required(ErrorMessage = "Lastname harus di isi")]
         [MaxLength(50)]
         public string LastName { get; set; } 
+        [Required]
         public DateTime DateOfBirth { get; set; }
         [Required(ErrorMessage = "Category harus di isi")]
         [MaxLength(50)]
