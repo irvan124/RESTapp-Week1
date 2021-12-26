@@ -8,5 +8,6 @@ namespace RESTapp.Data
     {
         
         Task<IEnumerable<Author>> GetByName(string name);
+
     }
 }

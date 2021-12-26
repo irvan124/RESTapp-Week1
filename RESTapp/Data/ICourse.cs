@@ -8,5 +8,8 @@ namespace RESTapp.Data
     {
         Task<IEnumerable<Course>> GetCoursesByAuthor(int id);
         Task<IEnumerable<Course>> GetByName(string title);
+
+       
+
     }
 }

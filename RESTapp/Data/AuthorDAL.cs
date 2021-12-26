@@ -78,7 +78,6 @@ namespace RESTapp.Data
                 throw new Exception($"Error: {dbEx.Message}");
             }
         }
-
         public async Task<Author> Update(string id, Author obj)
         {
             try
@@ -99,6 +98,26 @@ namespace RESTapp.Data
             }
         }
 
-     
+        public async Task<Author> UpdateCourse(string id, Author obj)
+        {
+            try
+            {
+                var result = await GetById(id);
+                result.FirstName = obj.FirstName;
+                result.LastName = obj.LastName;
+                result.DateOfBirth = obj.DateOfBirth;
+                result.MainCategory = obj.MainCategory;
+                await _db.SaveChangesAsync();
+                obj.AuthorID = Convert.ToInt32(id);
+                return obj;
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception($"Error: {ex.Message}");
+            }
+        }
+
+
     }
 }

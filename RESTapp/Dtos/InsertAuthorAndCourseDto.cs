@@ -15,5 +15,10 @@ namespace RESTapp.Dtos
         [Required(ErrorMessage = "Category harus di isi")]
         [MaxLength(50)]
         public string MainCategory { get; set; }
+
+        public string Title { get; set; }
+        public string Description { get; set; }
+       
+
     }
 }

@@ -16,12 +16,15 @@ namespace RESTapp.Controllers
     public class AuthorsController : ControllerBase
     {
         private IAuthor _author;
+        private ICourse _course;
         private IMapper _mapper;
 
-        public AuthorsController(IAuthor author, IMapper mapper)
+        public AuthorsController(IAuthor author, ICourse course, IMapper mapper)
         {
             _author = author;
+            _course = course;
             _mapper = mapper;
+           
         }
         // GET: api/<AuthorsController>
         [HttpGet]
@@ -78,6 +81,42 @@ namespace RESTapp.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        // POST api/<AuthorsController>
+        [HttpPost("InsertAuthorAndCourse")]
+        public async Task<ActionResult<InsertAuthorAndCourseDto>> PostAuthorAndCourse([FromBody] InsertAuthorAndCourseDto insertAuthorAndCourseDto)
+        {
+            try
+            {
+                var author = new Author()
+                {
+                    FirstName = insertAuthorAndCourseDto.FirstName,
+                    LastName = insertAuthorAndCourseDto.LastName,
+                    DateOfBirth = insertAuthorAndCourseDto.DateOfBirth,
+                    MainCategory = insertAuthorAndCourseDto.MainCategory
+                };
+
+
+                var result1 = await _author.Insert(author);
+                var course = new Course()
+                {
+                    Title = insertAuthorAndCourseDto.Title,
+                    Description = insertAuthorAndCourseDto.Description,
+                    AuthorID = result1.AuthorID,
+                };
+                var result2 = await _course.Insert(course);
+
+                return Ok("Test");
+             
+            }
+            catch (Exception ex)
+            {
+
+                return BadRequest(ex.Message);
+            }
+        }
+
+       
 
         // PUT api/<AuthorsController>/5
         [HttpPut("{id}")]
