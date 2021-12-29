@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using RESTapp.Data;
 using RESTapp.Dtos;
@@ -11,6 +12,8 @@ using System.Threading.Tasks;
 
 namespace RESTapp.Controllers
 {
+    // Set to  authorize so it can be  access this resource if doesnt have matched token
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class AuthorsController : ControllerBase
@@ -28,6 +31,8 @@ namespace RESTapp.Controllers
         }
         // GET: api/<AuthorsController>
         [HttpGet]
+        //[Authorize]
+        [AllowAnonymous]
         public async Task<ActionResult<AuthorDto>> Get()
         {
             var authors = await _author.GetAll();
@@ -37,6 +42,7 @@ namespace RESTapp.Controllers
 
         // GET api/<AuthorsController>/5
         [HttpGet("{id}")]
+        [AllowAnonymous]
         public async Task<ActionResult<AuthorDto>> Get(int id)
         {
             var result = await _author.GetById(id.ToString());
@@ -62,7 +68,9 @@ namespace RESTapp.Controllers
             return Ok(dtos);
         }
 
+        // Access based on Rule
 
+        [Authorize(Roles ="Admin")]
         // POST api/<AuthorsController>
         [HttpPost]
         public async Task<ActionResult<AuthorDto>> Post([FromBody] AuthorModifyDto authorModifyDto)

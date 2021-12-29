@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using RESTapp.Data;
 using RESTapp.Dtos;
@@ -22,6 +23,8 @@ namespace RESTapp.Controllers
             _course = course;
             _mapper = mapper;
         }
+        //Custom Authorization
+        [Authorize(Roles = "Admin")]
         // GET: api/<CoursesController>
         [HttpGet]
         public async Task<ActionResult<CourseDto>> Get()
